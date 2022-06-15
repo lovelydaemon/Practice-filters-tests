@@ -1,4 +1,4 @@
-from main import sort_ads_by_title
+from filters import sort_ads_by_title
 import pytest
 
 
@@ -11,19 +11,21 @@ items = [{
             'fee': 45000
         }]
 
-def test_title_default():
-    """Без уточнения описания"""
-    assert sort_ads_by_title(items, title=None) == items
+class TestTitleNormalMode:
+    def test_title_default(self):
+        """Без уточнения описания"""
+        assert sort_ads_by_title(items, title=None) == items
 
-def test_title_bad_type():
-    """В описании неправильный тип данных"""
-    with pytest.raises(TypeError):
-        sort_ads_by_title(items, title=12)
+    def test_title_not_exists(self):
+        """Нет совпадений с описанием"""
+        assert sort_ads_by_title(items, title='45') == []
 
-def test_title_not_exists():
-    """Нет совпадений с описанием"""
-    assert sort_ads_by_title(items, title='45') == []
+    def test_title_exists(self):
+        """Есть совпадение с описанием"""
+        assert sort_ads_by_title(items, title='кварти') == items
 
-def test_title_exists():
-    """Есть совпадение с описанием"""
-    assert sort_ads_by_title(items, title='кварти') == items
+class TestTitleRaises:
+    def test_title_bad_type(self):
+        """В описании неправильный тип данных"""
+        with pytest.raises(TypeError):
+            sort_ads_by_title(items, title=12)

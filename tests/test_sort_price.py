@@ -1,5 +1,7 @@
-from main import sort_ads_by_price
+from filters import sort_ads_by_price
 import pytest
+
+
 items_with_price = [
         {
             'title': '3-к. квартира, 80м2, 13/22 эт.',
@@ -16,7 +18,7 @@ items_without_price = [
             'agency': True,
         }]
 
-class TestNormalMode:
+class TestPriceNormalMode:
     def test_price_default(self):
         """Без уточнения диапазона"""
         assert sort_ads_by_price(items_with_price) == items_with_price
@@ -46,7 +48,7 @@ class TestNormalMode:
         assert sort_ads_by_price(items_without_price, max_price=80000) == []
 
 
-class TestRaises:
+class TestPriceRaises:
     def test_price_min_wrong_type(self):
         """Мин цена неправильный тип данных"""
         with pytest.raises(TypeError):
